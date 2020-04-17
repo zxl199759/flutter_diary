@@ -45,6 +45,7 @@ class _DiaryState extends State<Diary> {
     );
   }
 }
+
 //日记工厂
 class DiaryFactory extends StatelessWidget {
   final int id;
@@ -52,17 +53,21 @@ class DiaryFactory extends StatelessWidget {
   final String month;
   final String day;
   final String text;
-
-  DiaryFactory(this.id,this.year, this.month, this.day, this.text);
+  DiaryFactory(this.id, this.year, this.month, this.day, this.text);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onLongPress:(){
-        Provider.of<Sqlite>(context,listen: false).dele(id);
+      onLongPress: () {
+        Provider.of<Sqlite>(context, listen: false).dele(id);
       },
-      onTap: (){
+      onTap: () {
         print('0');
+        Navigator.pushNamed(context, '/write', arguments: {
+          "id": id,
+          "time": DateTime(int.parse(year), int.parse(month), int.parse(day)),
+          "text":text,
+        });
       },
       child: Container(
         width: MediaQuery.of(context).size.width - 20,

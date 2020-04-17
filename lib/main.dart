@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo/Provider/flutterSQLite.dart';
 import 'package:flutter_demo/Provider/themeColor.dart';
-
 import 'package:flutter_demo/logoAnimat.dart';
 import 'package:flutter_demo/router.dart';
 import 'package:provider/provider.dart';

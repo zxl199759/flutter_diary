@@ -21,21 +21,42 @@ class Sqlite with ChangeNotifier {
   }
 
   //插入
-  insert(String text, int year, int month, int day) async {
-    final Database db = await open();
-    int type = await db.insert(
-      'diarydata',
-      {
-        'diary': text,
-        'year': year,
-        'month': month,
-        'day': day,
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-    db.close();
-    print(type);
-    findAll();
+  insert(String text, int year, int month, int day, {int id}) async {
+    if (id == null) {
+      //插入新的日记
+      final Database db = await open();
+      int type = await db.insert(
+        'diarydata',
+        {
+          'diary': text,
+          'year': year,
+          'month': month,
+          'day': day,
+        },
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+      db.close();
+      print(type);
+      findAll();
+    } else {
+      //修改旧日记
+      final Database db = await open();
+      int type = await db.update(
+        'diarydata',
+        {
+          'id': id,
+          'diary': text,
+          'year': year,
+          'month': month,
+          'day': day,
+        },
+        where: 'id = ?',
+        whereArgs: [id]
+      );
+      db.close();
+      print(type);
+      findAll();
+    }
   }
 
   //获取文章表中全部数据
@@ -93,7 +114,7 @@ class Sqlite with ChangeNotifier {
           prefs.setString('userfirsttime', timetext);
           print(timetext);
           _user.setfirsttime(timetext);
-        }else{
+        } else {
           _user.setfirsttime(firsttime);
         }
 

@@ -12,7 +12,7 @@ import 'package:flutter_demo/write.dart';
 final routes={
       '/logoAnimat':(context)=>LogoAnimat(),
       '/setName':(context)=>SetName(),
-      '/write':(context)=>Write(),
+      '/write':(context,{arguments})=>Write(arguments: arguments),
       '/root':(context)=>Root(),
 };
 

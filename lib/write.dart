@@ -4,19 +4,32 @@ import 'package:flutter_demo/Provider/themeColor.dart';
 import 'package:provider/provider.dart';
 
 class Write extends StatefulWidget {
+  final Map arguments;
+  Write({this.arguments});
   @override
-  _WriteState createState() => _WriteState();
+  _WriteState createState() => _WriteState(arguments: this.arguments);
 }
 
 class _WriteState extends State<Write> {
-  TextEditingController _controller;
-  FocusNode _focusNode;
+  TextEditingController _controller; //输入框控制器
+  FocusNode _focusNode; //焦点
+  int id; //日记id  没有为null
+  DateTime time; //日记时间   没有为null
+  final Map arguments; //修改时传入   新建时为null
+  _WriteState({this.arguments});
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
-    _controller.text='';
     _focusNode = FocusNode();
+    if (arguments == null) {
+      _controller.text = "";
+      time = DateTime.now();
+    } else {
+      _controller.text = arguments["text"];
+      time = arguments["time"];
+      id = arguments["id"];
+    }
   }
 
   @override
@@ -30,9 +43,10 @@ class _WriteState extends State<Write> {
           GestureDetector(
             onTap: () {
               _focusNode.unfocus();
-              if (_controller.text.trim() != '') {
-                final DateTime time = DateTime.now();
-                sqlite.insert(_controller.text.trim(),time.year,time.month,time.day);
+              if (_controller.text.trimRight() != '') {
+                sqlite.insert(_controller.text.trimRight(), time.year,
+                    time.month, time.day,
+                    id: id);
                 Navigator.pop(context);
               } else {
                 showDialog(
