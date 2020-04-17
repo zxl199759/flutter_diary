@@ -1,4 +1,0 @@
-#Thu Apr 09 00:49:15 CST 2020
-base.0=D\:\\webDemo\\flutter_diary\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
-path.0=classes.dex
-renamed.0=classes.dex
